@@ -115,6 +115,7 @@ public class MutilProject implements ProjectFactory {
             targetProjectName = getProjectName() + PROJECT_SEPARATOR + templateProjectName.split(PROJECT_SEPARATOR)[1];
             generateDirForChild(templateFile, templateProjectName, targetProjectName);
         }
+        // 生成package
     }
 
     private void generateDir(File templateDir) {

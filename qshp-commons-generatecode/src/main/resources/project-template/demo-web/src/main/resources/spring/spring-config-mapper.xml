@@ -4,13 +4,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="typeAliasesPackage" value="org.qshp.domain" />
+		<property name="typeAliasesPackage" value="${group.id}.domain" />
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
 	<!-- scan for mappers and let them be autowired -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="org.qshp.dao" />
+		<property name="basePackage" value="${group.id}.dao" />
 	</bean>
 	
 </beans>
