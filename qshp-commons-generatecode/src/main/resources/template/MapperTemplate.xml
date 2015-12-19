@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="${domainPath}">
+
+	<resultMap id="appExt_rm" type="AppExt">
+		<id property="id" column="ae_id" />
+		<result property="appid" column="app_id" />
+		<result property="appType" column="ae_type" />
+		<result property="appIconKey" column="ae_iconkey" />
+		<result property="appUrlBindType" column="ae_urlbindtype" />
+		<result property="bindAppName" column="ae_bindappname" />
+		<result property="bindAppUrl" column="ae_bindappurl" />
+		<result property="bindUrl" column="ae_bindurl" />
+		<result property="appMiddleWareType" column="ae_middlewaretype" />
+		<result property="createTime" column="ae_createtime" />
+		<result property="modifyTime" column="ae_modifytime" />
+	</resultMap>
+	
+	<sql id="base_column">
+		ae_id,app_id,ae_type,ae_iconkey,ae_urlbindtype,ae_bindappname,ae_bindappurl,ae_bindurl,ae_middlewaretype,ae_createtime,ae_modifytime
+	</sql>
+
+	<select id="queryAppExtByAppId" resultMap="appExt_rm">
+		SELECT
+			<include refid="base_column" />
+		FROM
+			app_ext
+		WHERE
+			app_id = #{appid}
+	</select>
+
+    <insert id="insert" parameterType="AppExt" useGeneratedKeys="true" keyProperty="id">
+    	INSERT INTO 
+    		app_ext 
+    		(<include refid="base_column"/>)
+    	VALUES 
+    		(NULL,#{appid},#{appType.value},#{appIconKey},#{appUrlBindType.value},#{bindAppName},#{bindAppUrl},#{bindUrl},#{appMiddleWareType.value},now(),null)
+    </insert>
+    
+    <update id="update" parameterType="AppExt">
+    	UPDATE 
+    		app_ext 
+    		
+    	<set>
+    		<if test="appUrlBindType != null">
+    			ae_urlbindtype = #{appUrlBindType.value},
+    		</if>
+    		<if test="bindAppName != null">
+    			ae_bindappname = #{bindAppName},
+    		</if>
+    		<if test="bindAppUrl != null">
+    			ae_bindappurl = #{bindAppUrl},
+    		</if>
+    		<if test="bindUrl != null">
+    			ae_bindurl = #{bindUrl},
+    		</if>
+    		ae_modifytime = now()
+    	</set>
+    	WHERE
+    		app_id=#{appid}
+    </update>
+    
+    
+    <delete id="deleteByAppId">
+    	DELETE FROM
+    		app_ext
+    	WHERE
+    		app_id=#{appid}
+    </delete>
+    
+    
+</mapper>

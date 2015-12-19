@@ -1,0 +1,32 @@
+/*
+ * Copyright 2014-2014 qshp.org All right reserved. This software is the
+ * confidential and proprietary information of qshp.org ("Confidential
+ * Information"). You shall not disclose such Confidential Information and shall
+ * use it only in accordance with the terms of the license agreement you entered
+ * into with qshp.org.
+ */
+ 
+package ${package};
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.qshp.commons.biz.service.ServiceSupport;
+import org.qshp.commons.biz.manager.ManagerInterface;
+${dependPackages}
+
+/**
+ * @author QinYong
+ *
+ */
+@Service
+public class ${className} extends ServiceSupport implements ${interfaceClass}{
+
+	@Autowired
+	private ${autowiredDepend}
+	@Override
+	protected ManagerInterface getManager(){
+		return ${autowiredClassInstance};
+	}
+	
+}
+
