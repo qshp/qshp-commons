@@ -3,13 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.qshp</groupId>
-		<artifactId>qshp</artifactId>
+		<groupId>${group.id}</groupId>
+		<artifactId>${artifact.id}</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>qshp-web</artifactId>
+	<artifactId>${artifact.id}-web</artifactId>
 	<packaging>war</packaging>
-	<name>qshp-web Maven Webapp</name>
+	<name>${artifact.id}-web Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
@@ -86,7 +86,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>qshp-service</artifactId>
+			<artifactId>${artifact.id}-service</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -97,7 +97,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>qshp-web</finalName>
+		<finalName>${artifact.id}-web</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -137,17 +137,17 @@
 			</build>
 			<properties>
 
-				<!-- qshp log config -->
-				<qshp.log.path>c:/logs/qshp</qshp.log.path>
-				<qshp.log.level>INFO</qshp.log.level>
+				<!-- ${artifact.id} log config -->
+				<${artifact.id}.log.path>c:/logs/${artifact.id}</${artifact.id}.log.path>
+				<${artifact.id}.log.level>INFO</${artifact.id}.log.level>
 
-				<!-- db -->
-				<qshp.jdbc.url>
-						<![CDATA[jdbc:mysql://192.168.150.146:3306/procurement?useUnicode=true&amp;characterEncoding=UTF8]]>
-				</qshp.jdbc.url>
-				<qshp.jdbc.username>deploy</qshp.jdbc.username>
-				<qshp.jdbc.password>1qaz2wsx</qshp.jdbc.password>
-				<qshp.jdbc.driver>com.mysql.jdbc.Driver</qshp.jdbc.driver>
+				<!-- mysql db -->
+				<${artifact.id}.jdbc.url>
+						<![CDATA[jdbc:mysql://IP:端口/数据库?useUnicode=true&amp;characterEncoding=UTF8]]>
+				</${artifact.id}.jdbc.url>
+				<${artifact.id}.jdbc.username>用户名</${artifact.id}.jdbc.username>
+				<${artifact.id}.jdbc.password>密码</${artifact.id}.jdbc.password>
+				<${artifact.id}.jdbc.driver>com.mysql.jdbc.Driver</${artifact.id}.jdbc.driver>
 			</properties>
 		</profile>
 	</profiles>

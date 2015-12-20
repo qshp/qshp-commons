@@ -11,9 +11,11 @@ public class MutilProjectTest {
 
     public static void main(String[] args) throws ConfigurationException {
         Configuration config = new PropertiesConfiguration("config.properties");
-        String projectName = "test-project";
         String projectRootDir = config.getString("project.dir");
-        MutilProject project = new MutilProject(config,projectRootDir,projectName);
+        String groupId = config.getString("group.id");
+        String artifactId = config.getString("artifact.id");
+        MutilProject project = new MutilProject(config,projectRootDir,
+                groupId,artifactId);
         project.buildProject();
     }
 

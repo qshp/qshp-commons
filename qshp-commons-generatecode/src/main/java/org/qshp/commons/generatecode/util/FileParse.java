@@ -62,6 +62,7 @@ public class FileParse {
         try {
             String str = reader.readLine();
             String value;
+            int temBegin;
             while (flag) {
                 if(str == null){
                     break;
@@ -72,6 +73,13 @@ public class FileParse {
 
                     //提取占位符中字符串
                     key = str.substring(begin + PRE.length(), end);
+                    //提取的字符中是否还包含PRE，进行二次提取
+                    temBegin = key.lastIndexOf(PRE);
+                    if(temBegin > -1){
+                        temBegin += PRE.length();
+                        key = key.substring(temBegin);
+                        begin += temBegin;
+                    }
                     //根据从占位符中提取字符串获取配置文件对应的value
                     value = config.getString(key);
                     if( value == null){ //配置文件key不存在，则不替换，保留原值
@@ -105,29 +113,5 @@ public class FileParse {
         }
 
         return content;
-    }
-
-
-
-    public static void main(String[] args) {
-//        1231${AAAAA}3${BBBB}
-//        DDD
-//        sdsdsdds1${{CCCCC}3sdaaaf${DDDDD}SADSF${EEEE}LL;
-        String configPath = "/Users/muyu/dev/workspace/qshp-commons/qshp-commons-generatecode/src/main/resources/config.properties";
-        String xmlFilePath = "/Users/muyu/Desktop/pom.xml";
-        try {
-            Configuration config = new PropertiesConfiguration(configPath);
-            FileParse fileParse = new FileParse(config);
-            BufferedReader reader = new BufferedReader(new FileReader(xmlFilePath));
-
-            StringBuffer content = fileParse.parseTemplate(reader);
-            System.out.println(content);
-        } catch (ConfigurationException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e){
-            e.printStackTrace();
-        }
-
-
     }
 }

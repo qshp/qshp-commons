@@ -19,13 +19,19 @@ public class MutilProject implements ProjectFactory {
 
     public final String TEMPLATE_DIR = "project-template";
 
+    public final String JAVA_PACKAGE_ROOT = "src/main/java";
+
+    public final String TEST_PACKAGE_ROOT = "src/test/java";
+
     final String PROJECT_SEPARATOR = "-";
 
     private Configuration config;
 
-    private String projectName;
-
     private String projectRootDir;
+
+    private String groupId;
+
+    private String artifactId;
 
     static Set<String> projectType = new HashSet<String>();
 
@@ -37,9 +43,17 @@ public class MutilProject implements ProjectFactory {
         projectType.add("domain");
     }
 
-    public MutilProject(Configuration config, String projectRootDir, String projectName) {
+    /**
+     *
+     * @param config
+     * @param projectRootDir
+     * @param groupId
+     * @param artifactId
+     */
+    public MutilProject(Configuration config, String projectRootDir, String groupId,String artifactId) {
         this.config = config;
-        this.projectName = projectName;
+        this.groupId = groupId;
+        this.artifactId = artifactId;
         this.projectRootDir = projectRootDir;
     }
 
@@ -72,13 +86,15 @@ public class MutilProject implements ProjectFactory {
                 }
                 parentFlies.add(templateFiles[i]);
             }
+            String projectDir = getProjectDir();
+            String projectPackage =  getGroupId().replace(".",File.separator);
 
             if (!parentFlies.isEmpty()) {
-                generateParentProject(parentFlies);
+                generateParentProject(parentFlies,projectDir);
             }
 
             if (!childFiles.isEmpty()) {
-                generateChildProject(childFiles);
+                generateChildProject(childFiles,projectDir,projectPackage);
             }
 
 
@@ -88,15 +104,17 @@ public class MutilProject implements ProjectFactory {
     }
 
     /**
-     * 生成父工程
+     * 生成子工程
+     * @param templateFlies
+     * @param projectDir
      */
-    private void generateParentProject(List<File> templateFlies) {
+    private void generateParentProject(List<File> templateFlies,String projectDir) {
 
         for (File templateFile : templateFlies) {
             if (templateFile.isDirectory()) {
-                generateDir(templateFile);
+                generateDir(projectDir,templateFile);
             } else {
-                File targetFile = getTargetFile(templateFile);
+                File targetFile = getTargetFile(projectDir,templateFile);
                 generateFile(templateFile, targetFile);
             }
         }
@@ -104,44 +122,61 @@ public class MutilProject implements ProjectFactory {
 
     /**
      * 生成子工程
-     *
      * @param templateFlies
+     * @param projectDir
+     * @param projectPackage
      */
-    private void generateChildProject(List<File> templateFlies) {
+    private void generateChildProject(List<File> templateFlies,String projectDir,String projectPackage) {
         String templateProjectName;
         String targetProjectName;
         for (File templateFile : templateFlies) {
             templateProjectName = templateFile.getName();
-            targetProjectName = getProjectName() + PROJECT_SEPARATOR + templateProjectName.split(PROJECT_SEPARATOR)[1];
-            generateDirForChild(templateFile, templateProjectName, targetProjectName);
+            targetProjectName = getArtifactId() + PROJECT_SEPARATOR + templateProjectName.split(PROJECT_SEPARATOR)[1];
+            //生成非Java目录、文件
+            generateDirForChild(projectDir,templateFile, templateProjectName, targetProjectName);
+            // 生成Java package
+            mkdirJavaPackage(projectDir,targetProjectName,projectPackage);
         }
-        // 生成package
+
+
     }
 
-    private void generateDir(File templateDir) {
+    private void generateDir(String projectDir,File templateDir) {
         Collection<File> templateFiles = FileUtils.listFiles(templateDir, null, true);
         for (File templateFile : templateFiles) {
-            File targetFile = getTargetFile(templateFile);
+            File targetFile = getTargetFile(projectDir,templateFile);
             generateFile(templateFile, targetFile);
         }
     }
 
-    private void generateDirForChild(File templateDir,
+    private void generateDirForChild(String projectDir,File templateDir,
                                      String templateProjectName,
                                      String targetProjectName) {
         Collection<File> templateFiles = FileUtils.listFiles(templateDir, null, true);
         for (File templateFile : templateFiles) {
-            File targetFileName = getTargetFile(templateFile);
+            File targetFileName = getTargetFile(projectDir,templateFile);
             targetFileName = new File(targetFileName.getPath().replace(
                     templateProjectName, targetProjectName));
             generateFile(templateFile, targetFileName);
         }
     }
 
-    private File getTargetFile(File templateFile) {
+    /**
+     * 生成java包目录
+     * @param targetProjectName
+     */
+    private void mkdirJavaPackage(String projectDir,String targetProjectName,String projectPackage){
+
+        org.qshp.commons.util.io.FileUtils.mkdirs(projectDir+ targetProjectName
+                + File.separator + JAVA_PACKAGE_ROOT + File.separator + projectPackage);
+        org.qshp.commons.util.io.FileUtils.mkdirs(getProjectDir()+ targetProjectName
+                + File.separator + TEST_PACKAGE_ROOT + File.separator + projectPackage);
+
+    }
+
+    private File getTargetFile(String projectDir,File templateFile) {
         String templateFilePath = templateFile.getPath();
-        String targetFilePath = getProjectRootDir() + File.separator
-                + templateFilePath.substring(templateFilePath.indexOf(
+        String targetFilePath = projectDir + templateFilePath.substring(templateFilePath.indexOf(
                 templateDir()) + templateDir().length() + 1);
         return new File(targetFilePath);
     }
@@ -169,20 +204,17 @@ public class MutilProject implements ProjectFactory {
         return fileContent;
     }
 
+    private String getProjectDir(){
+        return getProjectRootDir() + File.separator
+                + getArtifactId() + File.separator;
+    }
+
     public Configuration getConfig() {
         return config;
     }
 
     public void setConfig(Configuration config) {
         this.config = config;
-    }
-
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
     }
 
     public String getProjectRootDir() {
@@ -193,4 +225,19 @@ public class MutilProject implements ProjectFactory {
         this.projectRootDir = projectRootDir;
     }
 
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    public String getArtifactId() {
+        return artifactId;
+    }
+
+    public void setArtifactId(String artifactId) {
+        this.artifactId = artifactId;
+    }
 }

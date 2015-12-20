@@ -29,7 +29,7 @@
 	<mvc:resources mapping="/img/**" location="/assets/img/" />
 	<mvc:default-servlet-handler />
 
-	<context:component-scan base-package="org.qshp.controller" />
+	<context:component-scan base-package="${group.id}.controller" />
 
 	<!-- 该 BeanPostProcessor 将自动对标注 @Autowired 的 Bean 进行注入 -->
 	<bean
@@ -91,26 +91,5 @@
 			</list>
 		</property>
 	</bean>
-	
-	<!-- 定义国际化消息 -->
-	<bean id="messageSource"
-		class="org.springframework.context.support.ReloadableResourceBundleMessageSource ">
-		<property name="defaultEncoding" value="UTF-8" />
-		<property name="basename" value="classpath:i18n/messages"/>
-		<property name="useCodeAsDefaultMessage" value="true" />
-	</bean>
-	
-	<!-- <bean id="localeChangeInterceptor"
-		class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"> -->
-			<!-- <property name="paramName" value="lan" />
-	</bean>
- 	-->
- 	
-	<!-- 基于session国际化配置 -->
-	<bean id="localeResolver"
-		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
-		<property name="defaultLocale" value="en_US" />
-		<property name="cookieName" value="lan"/>
-	</bean>
-	
+
 </beans>

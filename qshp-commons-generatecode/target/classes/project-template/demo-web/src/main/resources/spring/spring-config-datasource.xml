@@ -7,9 +7,9 @@
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="${qshp.jdbc.url}" />
-		<property name="username" value="${qshp.jdbc.username}" />
-		<property name="password" value="${qshp.jdbc.password}" />
+		<property name="url" value="${${artifact.id}.jdbc.url}" />
+		<property name="username" value="${${artifact.id}.jdbc.username}" />
+		<property name="password" value="${${artifact.id}.jdbc.password}" />
 
 		<!-- 初始化连接 -->
 		<property name="initialSize" value="5"></property>
