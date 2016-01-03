@@ -27,7 +27,7 @@ public class GenerateServiceInterface extends GenerateBaseInterface {
 	@Override
 	public String getHierarchyName() {
 		
-		return "Service";
+		return "service";
 	}
 	
 }

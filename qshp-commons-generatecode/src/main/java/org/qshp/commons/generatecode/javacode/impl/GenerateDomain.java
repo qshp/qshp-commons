@@ -57,16 +57,17 @@ public class GenerateDomain implements GenerateClass {
 			log.error("auto generate java code error ! "+structure, e);
 		}
 	}
-	
-	
-	public void generateClass(){
-		
-	}
+
 	
 	public String getClassName(ClassStructure structure) {
-		String className =  structure.getTableName().split("_")[1];
-		return className.substring(0, 1).toUpperCase()
-					+ className.substring(1);
+//		String className =  structure.getTableName().split("_")[1];
+		String[] classNameArr =  structure.getTableName().split("_");
+		StringBuffer className = new StringBuffer();
+		for(String name : classNameArr){
+			className.append(name.substring(0, 1).toUpperCase()
+					+ name.substring(1));
+		}
+		return className.toString();
 	}
 	
 	private String replaceFlag(String templateContent, String packageDir,

@@ -19,6 +19,8 @@ public class ClassStructure {
 
 	public static final String HIERARCHY_SEPARATOR = "-";
 
+	public static final String JAVA_PACKAGE = "src/main/java";
+
 	private String projectBaseDir;
 
 	private String projectName;
@@ -36,6 +38,7 @@ public class ClassStructure {
 	private String autowiredClassName;
 
 	private String autowiredPackageDir;
+
 
 
 	public String getProjectBaseDir() {
@@ -64,9 +67,17 @@ public class ClassStructure {
 	}
 
 	public String getClassName(String classNameSuffix) {
-		String className =  getTableName().split("_")[1];
-		return className.substring(0, 1).toUpperCase()
-					+ className.substring(1)+(classNameSuffix != null ? classNameSuffix :"");
+		String[] classNameArr =  getTableName().split("_");
+		StringBuffer className = new StringBuffer();
+		for(int i = 0,j = classNameArr.length; i < j; i++){
+			className.append(classNameArr[i].substring(0, 1).toUpperCase());
+			className.append(classNameArr[i].substring(1));
+			if(i == j-1){
+				className.append(classNameSuffix != null ? classNameSuffix :"");
+			}
+
+		}
+		return className.toString();
 	}
 
 
@@ -126,6 +137,7 @@ public class ClassStructure {
 		StringBuffer classFullPath = new StringBuffer(50);
 		classFullPath.append(projectBaseDir).append(File.separator);
 		classFullPath.append(projectName).append(HIERARCHY_SEPARATOR).append(hierarchyName).append(File.separator);
+		classFullPath.append(JAVA_PACKAGE).append(File.separator);
 		classFullPath.append(basePackage.replaceAll("\\.", File.separator)).append(File.separator);
 		classFullPath.append(className).append(".java");
 		return classFullPath.toString();

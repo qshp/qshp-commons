@@ -22,27 +22,31 @@ import org.qshp.commons.generatecode.javacode.impl.GenereateServiceImplementClas
  */
 public class GenerateJavaCodeTest {
 
-	public static String packageName = "coupons";
+	public static String projectDir = "/Users/muyu/dev/git/muyu";
 
-	public static String tableName = "t_coupons";
+	public static String projectName = "muyu";
+
+	public static String tableName = "preformance_info";
+
+	public static String groupId = "com.muyu";
 
 	public static void main(String[] args) {
 
 		System.out.println("start ......");
 		ClassStructure structure = new ClassStructure();
 		structure.setTableName(tableName);
-		structure.setProjectBaseDir("/Users/muyu/tmp/demo");
-		structure.setProjectName(packageName);
+		structure.setProjectBaseDir(projectDir);
+		structure.setProjectName(projectName);
 		structure.setDomainClassName(structure.getClassName(null));
 		
 		// domain
 		GenerateClass code = new GenerateDomain();
-		structure.setBasePackage("org.qshp.flowerS.domain");
+		structure.setBasePackage(groupId+".domain");
 		code.generateClass(structure);
 
 //		// mapper
 		code = new GenerateMapper();
-		structure.setBasePackage("org.qshp.flowerS.dao");
+		structure.setBasePackage(groupId+".dao");
 		code.generateClass(structure);
 //
 //		// set Autowired
@@ -51,7 +55,7 @@ public class GenerateJavaCodeTest {
 //
 //		// manager
 		code = new GenerateManagerInterface();
-		structure.setBasePackage("org.qshp.flowerS.manager");
+		structure.setBasePackage(groupId+".manager");
 		code.generateClass(structure);
 //
 //		// set interface
@@ -60,7 +64,7 @@ public class GenerateJavaCodeTest {
 //
 //		// manager impl
 		GenerateClass implementClass = new GenereateManagerImplementClass();
-		structure.setBasePackage("org.qshp.flowerS.manager.impl");
+		structure.setBasePackage(groupId+".manager.impl");
 		implementClass.generateClass(structure);
 //
 //		// set Autowired
@@ -69,7 +73,7 @@ public class GenerateJavaCodeTest {
 //
 //		// service
 		code = new GenerateServiceInterface();
-		structure.setBasePackage("org.qshp.flowerS.service");
+		structure.setBasePackage(groupId+".service");
 		code.generateClass(structure);
 //
 //		// set interface
@@ -78,7 +82,7 @@ public class GenerateJavaCodeTest {
 //
 //		// service impl
 		implementClass = new GenereateServiceImplementClass();
-		structure.setBasePackage("org.qshp.flowerS.service.impl");
+		structure.setBasePackage(groupId+".service.impl");
 		implementClass.generateClass(structure);
 
 		System.out.println("end ......");

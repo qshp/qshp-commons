@@ -28,7 +28,7 @@ public class GenerateManagerInterface extends GenerateBaseInterface{
 	@Override
 	public String getHierarchyName() {
 		
-		return "Manager";
+		return "manager";
 	}
 	
 }
