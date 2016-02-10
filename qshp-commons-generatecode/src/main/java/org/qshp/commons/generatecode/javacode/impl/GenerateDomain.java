@@ -38,14 +38,14 @@ public class GenerateDomain implements GenerateClass {
 	@Override
 	public void generateClass(ClassStructure structure) {
 		try {
-//			String sql = "show full COLUMNS from " + structure.getTableName();
-			//List<ColumnInfo> columns = getColumInfo(sql);
+			String sql = "show full COLUMNS from " + structure.getTableName();
+			List<ColumnInfo> columns = getColumInfo(sql);
 			String templateContent = FileUtils.readFileToString(new File(
 					ClassLoader.getSystemResource(TEMPLATE_PATH).getPath()),
 					ENCODING);
 			String className = structure.getClassName(null);
-			templateContent = replaceFlag(templateContent, structure.getPackage(),className, null);
-//			templateContent = replaceFlag(templateContent, structure.getPackage(),className, columns);
+//			templateContent = replaceFlag(templateContent, structure.getPackage(),className, null);
+			templateContent = replaceFlag(templateContent, structure.getPackage(),className, columns);
 			File javaFilePath = new File(structure.getClassFullPath(PROJECT_HIERARCHY_NAME,className));
 			if (!javaFilePath.getParentFile().exists()) {
 				javaFilePath.getParentFile().mkdirs();

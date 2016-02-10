@@ -26,9 +26,11 @@ public class GenerateJavaCodeTest {
 
 	public static String projectName = "muyu";
 
-	public static String tableName = "preformance_info";
+	public static String tableName = "performance_info";
 
 	public static String groupId = "com.muyu";
+
+	public static String packageSuffix = "perform";
 
 	public static void main(String[] args) {
 
@@ -41,12 +43,12 @@ public class GenerateJavaCodeTest {
 		
 		// domain
 		GenerateClass code = new GenerateDomain();
-		structure.setBasePackage(groupId+".domain");
+		structure.setBasePackage(groupId+".domain."+packageSuffix);
 		code.generateClass(structure);
 
 //		// mapper
 		code = new GenerateMapper();
-		structure.setBasePackage(groupId+".dao");
+		structure.setBasePackage(groupId+".dao."+packageSuffix);
 		code.generateClass(structure);
 //
 //		// set Autowired
@@ -55,7 +57,7 @@ public class GenerateJavaCodeTest {
 //
 //		// manager
 		code = new GenerateManagerInterface();
-		structure.setBasePackage(groupId+".manager");
+		structure.setBasePackage(groupId+".manager."+packageSuffix);
 		code.generateClass(structure);
 //
 //		// set interface
@@ -64,7 +66,7 @@ public class GenerateJavaCodeTest {
 //
 //		// manager impl
 		GenerateClass implementClass = new GenereateManagerImplementClass();
-		structure.setBasePackage(groupId+".manager.impl");
+		structure.setBasePackage(groupId+".manager."+packageSuffix+".impl");
 		implementClass.generateClass(structure);
 //
 //		// set Autowired
@@ -73,7 +75,7 @@ public class GenerateJavaCodeTest {
 //
 //		// service
 		code = new GenerateServiceInterface();
-		structure.setBasePackage(groupId+".service");
+		structure.setBasePackage(groupId+".service."+packageSuffix);
 		code.generateClass(structure);
 //
 //		// set interface
@@ -82,8 +84,8 @@ public class GenerateJavaCodeTest {
 //
 //		// service impl
 		implementClass = new GenereateServiceImplementClass();
-		structure.setBasePackage(groupId+".service.impl");
-		implementClass.generateClass(structure);
+		structure.setBasePackage(groupId + ".service."+packageSuffix+".impl");
+				implementClass.generateClass(structure);
 
 		System.out.println("end ......");
 	}

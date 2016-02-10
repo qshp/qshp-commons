@@ -90,7 +90,8 @@ public class ClassStructure {
 	}
 
 	public String getPackage() {
-		return basePackage+"."+projectName;
+//		return basePackage+"."+projectName;
+		return basePackage;
 	}
 
 	public String getDomainClassName() {

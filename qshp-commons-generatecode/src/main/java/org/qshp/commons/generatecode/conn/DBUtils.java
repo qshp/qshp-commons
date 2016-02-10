@@ -30,9 +30,9 @@ public class DBUtils {
 
 	private static String username = "root";
 
-	private static String password = "root";
+	private static String password = "123456";
 
-	private static String url = "jdbc:mysql://localhost:3306/flowers?useUnicode=true&amp;characterEncoding=UTF8";
+	private static String url = "jdbc:mysql://localhost:3306/muyu?useUnicode=true&amp;characterEncoding=UTF8";
 
 	private static String driver = "com.mysql.jdbc.Driver";
 
