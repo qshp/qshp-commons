@@ -128,13 +128,9 @@ public class GenerateDomain implements GenerateClass {
 				javaType = "int";
 			} else if (type.startsWith("tinyint")) {
 				javaType = "short";
-			} else if (type.startsWith("timestamp")) {
-				javaType = "Timestamp";
-				javaPackagePath = "java.sql.Timestamp";
-			} else if (type.startsWith("datetime")) {
-				javaType = "Date";
-				javaPackagePath = "java.util.Date";
-			} else if (type.startsWith("date")) {
+			} else if (type.startsWith("timestamp") ||
+					type.startsWith("datetime") ||
+					type.startsWith("date") ) {
 				javaType = "Date";
 				javaPackagePath = "java.util.Date";
 			} else {
