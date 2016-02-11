@@ -47,45 +47,45 @@ public class GenerateJavaCodeTest {
 		code.generateClass(structure);
 
 //		// mapper
-		code = new GenerateMapper();
-		structure.setBasePackage(groupId+".dao."+packageSuffix);
-		code.generateClass(structure);
-//
-//		// set Autowired
-		structure.setAutowiredClassName(structure.getClassName("Mapper"));
-		structure.setAutowiredPackageDir(structure.getBasePackage());
-//
-//		// manager
-		code = new GenerateManagerInterface();
-		structure.setBasePackage(groupId+".manager."+packageSuffix);
-		code.generateClass(structure);
-//
-//		// set interface
-		structure.setInterfaceClassName(structure.getClassName("Manager"));
-		structure.setInterfacePackageDir(structure.getBasePackage());
-//
-//		// manager impl
-		GenerateClass implementClass = new GenereateManagerImplementClass();
-		structure.setBasePackage(groupId+".manager."+packageSuffix+".impl");
-		implementClass.generateClass(structure);
-//
-//		// set Autowired
-		structure.setAutowiredClassName(structure.getClassName("Manager"));
-		structure.setAutowiredPackageDir(structure.getBasePackage());
-//
-//		// service
-		code = new GenerateServiceInterface();
-		structure.setBasePackage(groupId+".service."+packageSuffix);
-		code.generateClass(structure);
-//
-//		// set interface
-		structure.setInterfaceClassName(structure.getClassName("Service"));
-		structure.setInterfacePackageDir(structure.getBasePackage());
-//
-//		// service impl
-		implementClass = new GenereateServiceImplementClass();
-		structure.setBasePackage(groupId + ".service."+packageSuffix+".impl");
-				implementClass.generateClass(structure);
+//		code = new GenerateMapper();
+//		structure.setBasePackage(groupId+".dao."+packageSuffix);
+//		code.generateClass(structure);
+////
+////		// set Autowired
+//		structure.setAutowiredClassName(structure.getClassName("Mapper"));
+//		structure.setAutowiredPackageDir(structure.getBasePackage());
+////
+////		// manager
+//		code = new GenerateManagerInterface();
+//		structure.setBasePackage(groupId+".manager."+packageSuffix);
+//		code.generateClass(structure);
+////
+////		// set interface
+//		structure.setInterfaceClassName(structure.getClassName("Manager"));
+//		structure.setInterfacePackageDir(structure.getBasePackage());
+////
+////		// manager impl
+//		GenerateClass implementClass = new GenereateManagerImplementClass();
+//		structure.setBasePackage(groupId+".manager."+packageSuffix+".impl");
+//		implementClass.generateClass(structure);
+////
+////		// set Autowired
+//		structure.setAutowiredClassName(structure.getClassName("Manager"));
+//		structure.setAutowiredPackageDir(structure.getBasePackage());
+////
+////		// service
+//		code = new GenerateServiceInterface();
+//		structure.setBasePackage(groupId+".service."+packageSuffix);
+//		code.generateClass(structure);
+////
+////		// set interface
+//		structure.setInterfaceClassName(structure.getClassName("Service"));
+//		structure.setInterfacePackageDir(structure.getBasePackage());
+////
+////		// service impl
+//		implementClass = new GenereateServiceImplementClass();
+//		structure.setBasePackage(groupId + ".service."+packageSuffix+".impl");
+//				implementClass.generateClass(structure);
 
 		System.out.println("end ......");
 	}

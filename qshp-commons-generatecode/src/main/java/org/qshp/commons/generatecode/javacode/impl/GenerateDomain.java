@@ -34,7 +34,7 @@ public class GenerateDomain implements GenerateClass {
 	public static final String TEMPLATE_PATH = "template/DomainTemplate.txt";
 	public static final String ENCODING = "UTF-8";
 	public static final String PROJECT_HIERARCHY_NAME ="domain";
-	public static final String PROJECT_SOURCE_PACKAGE = File.separator+"src"+File.separator+"main"+File.separator+"java";
+//	public static final String PROJECT_SOURCE_PACKAGE = File.separator+"src"+File.separator+"main"+File.separator+"java";
 	@Override
 	public void generateClass(ClassStructure structure) {
 		try {
@@ -44,7 +44,6 @@ public class GenerateDomain implements GenerateClass {
 					ClassLoader.getSystemResource(TEMPLATE_PATH).getPath()),
 					ENCODING);
 			String className = structure.getClassName(null);
-//			templateContent = replaceFlag(templateContent, structure.getPackage(),className, null);
 			templateContent = replaceFlag(templateContent, structure.getPackage(),className, columns);
 			File javaFilePath = new File(structure.getClassFullPath(PROJECT_HIERARCHY_NAME,className));
 			if (!javaFilePath.getParentFile().exists()) {
@@ -75,10 +74,10 @@ public class GenerateDomain implements GenerateClass {
 		StringBuffer packageInfo = new StringBuffer();
 		StringBuffer fieldInfo = new StringBuffer();
 		StringBuffer methodInfo = new StringBuffer();
-//		ClassHandle handle = new ClassHandle();
-//		for (ColumnInfo columnInfo : columns) {
-//			handle.handleClass(columnInfo, packageInfo, fieldInfo, methodInfo);
-//		}
+		ClassHandle handle = new ClassHandle();
+		for (ColumnInfo columnInfo : columns) {
+			handle.handleClass(columnInfo, packageInfo, fieldInfo, methodInfo);
+		}
 		return templateContent.replaceAll(PACKAGE_FLAG, packageDir)
 				.replaceAll(DEPEND_PACKAGE_FLAG, packageInfo.toString())
 				.replaceAll(CLASS_FLAG, className)
@@ -108,22 +107,15 @@ public class GenerateDomain implements GenerateClass {
 		public void handleClass(ColumnInfo columnInfo,
 				StringBuffer packageBuff, StringBuffer fieldBuff,
 				StringBuffer methodBuff) {
-			String field = columnInfo.getField().split("_")[1];
-			String javaField;
-			// 过滤ID
-			if (field.equals("ID")) {
-				javaField = "id";
-			} else {
-				javaField = field.substring(0, 1).toLowerCase()
-						+ field.substring(1);
-				// 过滤ID
-				if (javaField.length() > 2) {
-					if (javaField.lastIndexOf("ID") == javaField.length() - 2) {
-						javaField = javaField.substring(0,
-								javaField.length() - 2) + "Id";
-					}
-				}
+
+			String methodField = getJavaField(columnInfo.getField());
+			String field = methodField;
+			if(methodField.length() > 1){
+				field = methodField.substring(0,1).toLowerCase() +
+						methodField.substring(1,methodField.length());
 			}
+
+
 
 			String type = columnInfo.getType();
 			String javaType;
@@ -150,7 +142,7 @@ public class GenerateDomain implements GenerateClass {
 			}
 
 			fieldBuff.append(FIELD_PREFIX).append(javaType).append(" ")
-					.append(javaField).append(FIELD_SUFFIX);
+					.append(field).append(FIELD_SUFFIX);
 
 			// import package
 			if (javaPackagePath != null) {
@@ -162,19 +154,37 @@ public class GenerateDomain implements GenerateClass {
 			}
 
 			// setMethod
-			methodBuff.append("\tpublic void ").append("set").append(field)
-					.append("(").append(javaType).append(" ").append(javaField)
+			methodBuff.append("\tpublic void ").append("set").append(methodField)
+					.append("(").append(javaType).append(" ").append(field)
 					.append(") {\r\n");
-			methodBuff.append("\t\tthis.").append(javaField).append(" = ")
-					.append(javaField).append(";\r\n\t}\t\r\n\r\n");
+			methodBuff.append("\t\tthis.").append(field).append(" = ")
+					.append(field).append(";\r\n\t}\t\r\n\r\n");
 
 			// getMethod
 			methodBuff.append("\tpublic ").append(javaType).append(" get")
-					.append(field).append("() {\r\n");
-			methodBuff.append("\t\treturn ").append(javaField)
+					.append(methodField).append("() {\r\n");
+			methodBuff.append("\t\treturn ").append(field)
 					.append(";\r\n\t}\r\n\r\n");
 
 		}
+		private String getJavaField(String columnField){
+			String[] fieldNames = columnField.split("_");
+			StringBuffer fieldBuff = new StringBuffer(columnField.length());
+			for(String fieldName :fieldNames){
+				fieldBuff.append(fieldName.substring(0,1).toUpperCase())
+						.append(fieldName.substring(1,fieldName.length()));
+			}
+			return fieldBuff.toString();
+
+		}
+	}
+
+
+
+	public static void main(String[] args) {
+		ClassHandle domain = new GenerateDomain.ClassHandle();
+		String str = "et_ui_kk";
+		System.out.println(domain.getJavaField(str));
 	}
 
 }
